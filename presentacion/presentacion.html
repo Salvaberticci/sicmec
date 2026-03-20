@@ -3,244 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presentación SICMEC - Sistema de Control Médico</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <title>SICMEC - Presentación 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@300;400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
+            --primary: #0ea5e9;
+            --ven-yellow: #fbbf24;
+            --ven-blue: #2563eb;
+            --ven-red: #ef4444;
+            --dark: #020617;
+            --glass: rgba(15, 23, 42, 0.9);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f1f5f9;
             --text-dim: #94a3b8;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--dark);
             color: var(--text-main);
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
-            min-height: 100vh;
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fondo Animado */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
+        }
+
+        /* Escena 3D Principal */
+        #scene-container {
+            position: relative;
+            width: 90vw;
+            height: 85vh;
+            max-width: 1200px;
+            perspective: 1500px;
+            transform-style: preserve-3d;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 50px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            transform-origin: center center;
         }
 
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            padding: 4rem 2rem;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 5rem;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        h1 {
-            font-size: 4.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-        }
-
-        .badge-system {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            padding: 0.5rem 1.5rem;
-            border-radius: 99px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            color: var(--text-dim);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out backwards;
-        }
-
-        .feature-card:nth-child(2) { animation-delay: 0.2s; }
-        .feature-card:nth-child(3) { animation-delay: 0.4s; }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .icon-box {
-            width: 60px;
-            height: 60px;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-            font-size: 1.8rem;
-        }
-
-        h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        p {
-            line-height: 1.7;
-            color: var(--text-dim);
-        }
-
-        .tech-stack {
-            margin-top: 6rem;
-            text-align: center;
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        .tech-icons {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        .tech-item {
-            text-align: center;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-
-        .tech-item:hover {
+        /* Estados de los Slides */
+        .slide.active {
             opacity: 1;
+            visibility: visible;
+            transform: translateZ(0) rotateY(0);
+            z-index: 10;
         }
 
-        .tech-item i {
-            display: block;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+        .slide.next {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateZ(-500px) rotateY(90deg) translateX(100%);
+            z-index: 5;
         }
 
-        .btn-main {
-            display: inline-block;
-            margin-top: 3rem;
-            padding: 1rem 2.5rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 14px;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+        .slide.prev {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateZ(-500px) rotateY(-90deg) translateX(-100%);
+            z-index: 5;
         }
 
-        .btn-main:hover {
-            background: transparent;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        /* Tipografía */
+        h1, h2 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; }
+        .slide-title { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--primary); margin-bottom: 20px; }
+        p { font-size: 1.2rem; color: var(--text-dim); }
+
+        /* Estilos de Portada */
+        .portada-header { text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
+        .portada-header p { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); font-weight: 500; }
+        .main-project-title { font-size: clamp(4rem, 15vw, 8rem); text-align: center; background: linear-gradient(to bottom, #fff, #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -5px; }
+        .portada-footer { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); padding-top: 20px; }
+
+        /* Grid de Características */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; flex-grow: 1; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 25px; border-radius: 16px; display: flex; flex-direction: column; gap: 10px; }
+        .card i { font-size: 2rem; color: var(--primary); }
+        .card h3 { color: #fff; font-size: 1.3rem; }
+
+        /* Terminal Estilo Code */
+        .terminal { background: #000; padding: 20px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; color: #10b981; font-size: 0.9rem; border: 1px solid #1e293b; }
+        .terminal .line { margin-bottom: 5px; }
+        .terminal .cmd { color: #fff; font-weight: bold; }
+
+        /* Controles */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000; /* Asegurar que estén encima de todo */
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-nav {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .btn-nav:hover { background: var(--primary); transform: scale(1.1); }
+        .btn-nav:active { transform: scale(0.95); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        /* Barra de Progreso Tricolor */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; display: flex; z-index: 1001; }
+        .p-fill { height: 100%; width: 0%; transition: width 0.4s; display: flex; }
+        .p-y { flex: 1; background: var(--ven-yellow); }
+        .p-b { flex: 1; background: var(--ven-blue); }
+        .p-r { flex: 1; background: var(--ven-red); }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 3rem; }
-            .features-grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="badge-system">v2.1 Unified Implementation</div>
-            <h1>SICMEC</h1>
-            <p class="subtitle">Sistema Integral de Control Médico - Elevando la eficiencia administrativa con tecnología de vanguardia.</p>
-        </header>
 
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="icon-box"><i class="fab fa-telegram"></i></div>
-                <h3>Ecosistema Telegram</h3>
-                <p>Integración nativa con bots para notificaciones en tiempo real, consultas rápidas y alertas del sistema integradas directamente en el flujo de trabajo móvil.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="icon-box"><i class="fas fa-file-pdf"></i></div>
-                <h3>Gestión Centralizada PDF</h3>
-                <p>Motor de reportes unificado con firmas dinámicas de 3 columnas, logotipos optimizados y generación instantánea para contratos y registros históricos.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="icon-box"><i class="fas fa-shield-alt"></i></div>
-                <h3>Arquitectura Sanitizada</h3>
-                <p>Historial de repositorio optimizado, eliminación permanente de secretos y estructura de base de datos modular para una implementación segura en cualquier entorno.</p>
-            </div>
-        </div>
-
-        <div class="tech-stack">
-            <h3>Nuestra Base Tecnológica</h3>
-            <div class="tech-icons">
-                <div class="tech-item"><i class="fab fa-php"></i><span>PHP 8.x</span></div>
-                <div class="tech-item"><i class="fab fa-laravel"></i><span>Laravel Core</span></div>
-                <div class="tech-item"><i class="fas fa-database"></i><span>MySQL / MariaDB</span></div>
-                <div class="tech-item"><i class="fab fa-js"></i><span>Vanilla JS</span></div>
-            </div>
-        </div>
-
-        <div style="text-align: center;">
-            <a href="../public/" class="btn-main">Acceder al Sistema <i class="fas fa-arrow-right"></i></a>
+    <div class="bg-layer"></div>
+    
+    <div class="progress-container">
+        <div class="p-fill" id="progressBar">
+            <div class="p-y"></div>
+            <div class="p-b"></div>
+            <div class="p-r"></div>
         </div>
     </div>
+
+    <div id="scene-container">
+        <!-- Slide 1: PORTADA -->
+        <div class="slide active">
+            <div class="portada-header">
+                <p>República Bolivariana de Venezuela</p>
+                <p>Ministerio del Poder Popular para la Educación Universitaria</p>
+                <p><strong>U.P.T.T "Mario Briceño Iragorry"</strong></p>
+            </div>
+            
+            <h1 class="main-project-title">SICMEC</h1>
+            <p style="text-align: center; color: var(--primary); font-size: 1.5rem; letter-spacing: 4px;">CONTROL DE MEDICAMENTOS Y ENTREGAS</p>
+            
+            <div class="portada-footer">
+                <div>
+                    <p style="color: #fff; font-weight: 700;">PROYECTO INFORMATICA</p>
+                    <p>Br. [Tu Nombre / Equipo]</p>
+                </div>
+                <div style="text-align: right;">
+                    <p>Valera, 2026</p>
+                    <p>Ingeniería en Informática</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: NATURALEZA -->
+        <div class="slide">
+            <h2 class="slide-title">Naturaleza del Sistema</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;">
+                <div>
+                    <p style="font-size: 1.4rem; color: #fff;">SICMEC es una solución <strong>Web Application</strong> integral bajo el entorno Laravel/PHP.</p>
+                    <br>
+                    <p>Diseñada para sistematizar procesos de captura de datos de beneficiarios, gestión de inventario crítico y trazabilidad de insumos biomédicos.</p>
+                </div>
+                <div class="card" style="background: rgba(14, 165, 233, 0.1);">
+                    <i class="fa-solid fa-microchip"></i>
+                    <h3>Innovación Social</h3>
+                    <p>Automatización de procesos administrativos que tradicionalmente dependen de carga manual y colapsos logísticos.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: INNOVACIONES -->
+        <div class="slide">
+            <h2 class="slide-title">Características 5.0</h2>
+            <div class="feature-grid">
+                <div class="card">
+                    <i class="fa-brands fa-telegram"></i>
+                    <h3>Chatbot Telegram</h3>
+                    <p>Webhook HTTPS oficial. Consultas en tiempo real (0.2s) para estatus de trámites desde el hogar.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-comment-sms"></i>
+                    <h3>SMS Omnicanal</h3>
+                    <p>Integración Twilio API. Notificaciones nativas GSM para ciudadanos sin conexión a datos móviles.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <h3>PDF Dinámicos</h3>
+                    <p>Motor DomPDF para generación de actas de entrega e informes bajo estándares ISO.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: STACK -->
+        <div class="slide">
+            <h2 class="slide-title">Arquitectura Técnica</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div class="terminal">
+                    <div class="line"><span class="cmd">Framework:</span> Laravel 8.75</div>
+                    <div class="line"><span class="cmd">Engine:</span> PHP 8.1 (OOP)</div>
+                    <div class="line"><span class="cmd">Database:</span> MariaDB / MySQL</div>
+                    <div class="line"><span class="cmd">Frontend:</span> Bootstrap 5 + Vue.js</div>
+                    <div class="line"><span class="cmd">Notif:</span> Twilio + Telegram API</div>
+                </div>
+                <div class="card">
+                    <h3>Seguridad y Rapidez</h3>
+                    <ul style="list-style: none; padding-top: 10px;">
+                        <li style="margin-bottom: 10px;"><i class="fa-solid fa-shield-check" style="color: var(--primary)"></i> Encriptación Base64</li>
+                        <li style="margin-bottom: 10px;"><i class="fa-solid fa-bolt" style="color: var(--primary)"></i> Zero-Downtime Config</li>
+                        <li style="margin-bottom: 10px;"><i class="fa-solid fa-chart-line" style="color: var(--primary)"></i> Chart.js Real-time</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: CONCLUSIÓN -->
+        <div class="slide">
+            <div style="text-align: center; margin-top: 50px;">
+                <i class="fa-solid fa-handshake-angle" style="font-size: 5rem; color: var(--primary); margin-bottom: 30px;"></i>
+                <h2 style="font-size: 3rem;">Gracias por su atención</h2>
+                <p style="font-size: 1.5rem; max-width: 700px; margin: 20px auto;">SICMEC: Hacia la digitalización de la gestión social en Venezuela.</p>
+                <div style="margin-top: 40px; color: var(--primary); font-family: 'JetBrains Mono';">¿Preguntas?</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-nav" id="prevBtn" title="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="btn-nav" id="nextBtn" title="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'next', 'prev');
+                
+                if (index === currentIndex) {
+                    slide.classList.add('active');
+                } else if (index > currentIndex) {
+                    slide.classList.add('next');
+                } else {
+                    slide.classList.add('prev');
+                }
+            });
+            
+            // Actualizar progreso
+            const progress = ((currentIndex + 1) / slides.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            if (currentIndex < slides.length - 1) {
+                currentIndex++;
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlides();
+            }
+        }
+
+        // Eventos de botones
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            nextSlide();
+        });
+        
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            prevSlide();
+        });
+
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Soporte para gestos (Swipe)
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            if (touchendX < touchstartX - 50) nextSlide();
+            if (touchendX > touchstartX + 50) prevSlide();
+        }
+
+        // Inicializar
+        window.onload = updateSlides;
+    </script>
 </body>
 </html>
