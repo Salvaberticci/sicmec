@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación SICMEC - Sistema de Control Médico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 4rem 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 5rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .badge-system {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            padding: 0.5rem 1.5rem;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.4s; }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        p {
+            line-height: 1.7;
+            color: var(--text-dim);
+        }
+
+        .tech-stack {
+            margin-top: 6rem;
+            text-align: center;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .tech-icons {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .tech-item {
+            text-align: center;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .tech-item:hover {
+            opacity: 1;
+        }
+
+        .tech-item i {
+            display: block;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-main {
+            display: inline-block;
+            margin-top: 3rem;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn-main:hover {
+            background: transparent;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge-system">v2.1 Unified Implementation</div>
+            <h1>SICMEC</h1>
+            <p class="subtitle">Sistema Integral de Control Médico - Elevando la eficiencia administrativa con tecnología de vanguardia.</p>
+        </header>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon-box"><i class="fab fa-telegram"></i></div>
+                <h3>Ecosistema Telegram</h3>
+                <p>Integración nativa con bots para notificaciones en tiempo real, consultas rápidas y alertas del sistema integradas directamente en el flujo de trabajo móvil.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-box"><i class="fas fa-file-pdf"></i></div>
+                <h3>Gestión Centralizada PDF</h3>
+                <p>Motor de reportes unificado con firmas dinámicas de 3 columnas, logotipos optimizados y generación instantánea para contratos y registros históricos.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-box"><i class="fas fa-shield-alt"></i></div>
+                <h3>Arquitectura Sanitizada</h3>
+                <p>Historial de repositorio optimizado, eliminación permanente de secretos y estructura de base de datos modular para una implementación segura en cualquier entorno.</p>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <h3>Nuestra Base Tecnológica</h3>
+            <div class="tech-icons">
+                <div class="tech-item"><i class="fab fa-php"></i><span>PHP 8.x</span></div>
+                <div class="tech-item"><i class="fab fa-laravel"></i><span>Laravel Core</span></div>
+                <div class="tech-item"><i class="fas fa-database"></i><span>MySQL / MariaDB</span></div>
+                <div class="tech-item"><i class="fab fa-js"></i><span>Vanilla JS</span></div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="../public/" class="btn-main">Acceder al Sistema <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+</body>
+</html>
