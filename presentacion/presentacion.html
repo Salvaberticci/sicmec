@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SICMEC - Presentación 3D</title>
+    <title>SICMEC - Presentación 3D Final</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@300;400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -62,7 +62,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 50px;
+            padding: 40px;
             display: flex;
             flex-direction: column;
             opacity: 0;
@@ -70,6 +70,7 @@
             transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
             box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
             transform-origin: center center;
+            overflow-y: auto;
         }
 
         /* Estados de los Slides */
@@ -96,40 +97,47 @@
 
         /* Tipografía */
         h1, h2 { font-family: 'Space Grotesk', sans-serif; line-height: 1.1; }
-        .slide-title { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--primary); margin-bottom: 20px; }
-        p { font-size: 1.2rem; color: var(--text-dim); }
+        .slide-title { font-size: clamp(1.8rem, 4vw, 3rem); color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 10px; }
+        p { font-size: 1.1rem; color: var(--text-dim); line-height: 1.6; }
+        strong { color: var(--text-main); }
 
         /* Estilos de Portada */
-        .portada-header { text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
-        .portada-header p { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); font-weight: 500; }
-        .main-project-title { font-size: clamp(4rem, 15vw, 8rem); text-align: center; background: linear-gradient(to bottom, #fff, #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -5px; }
-        .portada-footer { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); padding-top: 20px; }
+        .portada-header { text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 25px; }
+        .portada-header p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-main); font-weight: 500; }
+        .main-project-title { font-size: clamp(3rem, 12vw, 6rem); text-align: center; background: linear-gradient(to bottom, #fff, #475569); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -3px; }
+        .portada-footer { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); padding-top: 15px; }
 
         /* Grid de Características */
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; flex-grow: 1; }
-        .card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 25px; border-radius: 16px; display: flex; flex-direction: column; gap: 10px; }
-        .card i { font-size: 2rem; color: var(--primary); }
-        .card h3 { color: #fff; font-size: 1.3rem; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; flex-grow: 1; margin-top: 10px; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 16px; display: flex; flex-direction: column; gap: 8px; }
+        .card i { font-size: 1.5rem; color: var(--primary); }
+        .card h3 { color: #fff; font-size: 1.1rem; }
+        .card p { font-size: 0.9rem; }
 
         /* Terminal Estilo Code */
-        .terminal { background: #000; padding: 20px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; color: #10b981; font-size: 0.9rem; border: 1px solid #1e293b; }
-        .terminal .line { margin-bottom: 5px; }
+        .terminal { background: #000; padding: 15px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; color: #10b981; font-size: 0.8rem; border: 1px solid #1e293b; margin-top: 10px; }
+        .terminal .line { margin-bottom: 3px; }
         .terminal .cmd { color: #fff; font-weight: bold; }
+
+        /* Listas */
+        ul.styled-list { list-style: none; margin-top: 10px; }
+        ul.styled-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 15px; font-size: 1rem; color: var(--text-dim); }
+        ul.styled-list li i { color: var(--primary); margin-top: 4px; font-size: 1.1rem; width: 25px; text-align: center; }
 
         /* Controles */
         .controls {
             position: fixed;
-            bottom: 30px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 20px;
-            z-index: 1000; /* Asegurar que estén encima de todo */
+            gap: 15px;
+            z-index: 1000;
         }
 
         .btn-nav {
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: var(--glass);
             border: 1px solid var(--border);
@@ -138,20 +146,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: 0.2s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
         }
 
         .btn-nav:hover { background: var(--primary); transform: scale(1.1); }
         .btn-nav:active { transform: scale(0.95); }
 
         /* Barra de Progreso Tricolor */
-        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; display: flex; z-index: 1001; }
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; display: flex; z-index: 1001; }
         .p-fill { height: 100%; width: 0%; transition: width 0.4s; display: flex; }
         .p-y { flex: 1; background: var(--ven-yellow); }
         .p-b { flex: 1; background: var(--ven-blue); }
         .p-r { flex: 1; background: var(--ven-red); }
+
+        /* Custom scrollbar */
+        .slide::-webkit-scrollbar { width: 6px; }
+        .slide::-webkit-scrollbar-track { background: transparent; }
+        .slide::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
     </style>
 </head>
@@ -177,12 +190,12 @@
             </div>
             
             <h1 class="main-project-title">SICMEC</h1>
-            <p style="text-align: center; color: var(--primary); font-size: 1.5rem; letter-spacing: 4px;">CONTROL DE MEDICAMENTOS Y ENTREGAS</p>
+            <p style="text-align: center; color: var(--primary); font-size: 1.2rem; letter-spacing: 3px; margin-top: -10px;">CONTROL DE MEDICAMENTOS Y ENTREGAS</p>
             
             <div class="portada-footer">
                 <div>
-                    <p style="color: #fff; font-weight: 700;">PROYECTO INFORMATICA</p>
-                    <p>Br. [Tu Nombre / Equipo]</p>
+                    <p style="color: #fff; font-weight: 700;">PROYECTO INFORMÁTICA</p>
+                    <p>Br. [Salvaberticci & Team]</p>
                 </div>
                 <div style="text-align: right;">
                     <p>Valera, 2026</p>
@@ -191,74 +204,298 @@
             </div>
         </div>
 
-        <!-- Slide 2: NATURALEZA -->
+        <!-- Slide 2: PROPÓSITO DEL SISTEMA -->
         <div class="slide">
-            <h2 class="slide-title">Naturaleza del Sistema</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;">
+            <h2 class="slide-title">Propósito Social</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                 <div>
-                    <p style="font-size: 1.4rem; color: #fff;">SICMEC es una solución <strong>Web Application</strong> integral bajo el entorno Laravel/PHP.</p>
-                    <br>
-                    <p>Diseñada para sistematizar procesos de captura de datos de beneficiarios, gestión de inventario crítico y trazabilidad de insumos biomédicos.</p>
+                    <p>SICMEC es una plataforma estratégica para la <strong>digitalización de la asistencia social</strong>. Centraliza procesos que tradicionalmente dependen de carga manual.</p>
+                    <ul class="styled-list">
+                        <li><i class="fas fa-heartbeat"></i> Atención directa e inmediata al ciudadano.</li>
+                        <li><i class="fas fa-microchip"></i> Automatización de la trazabilidad médica.</li>
+                        <li><i class="fas fa-bullhorn"></i> Comunicación proactiva multicanal.</li>
+                    </ul>
                 </div>
-                <div class="card" style="background: rgba(14, 165, 233, 0.1);">
-                    <i class="fa-solid fa-microchip"></i>
-                    <h3>Innovación Social</h3>
-                    <p>Automatización de procesos administrativos que tradicionalmente dependen de carga manual y colapsos logísticos.</p>
+                <div class="card" style="background: rgba(14, 165, 233, 0.05); border-left: 4px solid var(--primary);">
+                    <p><em>"Gestionamos no solo medicinas, sino la esperanza de una comunidad mediante tecnología de vanguardia."</em></p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 3: INNOVACIONES -->
+        <!-- Slide 3: ARQUITECTURA MVC -->
         <div class="slide">
-            <h2 class="slide-title">Características 5.0</h2>
+            <h2 class="slide-title">Arquitectura del Software</h2>
+            <p>El sistema se rige por el estándar industrial <strong>MVC (Modelo-Vista-Controlador)</strong>, garantizando escalabilidad y orden.</p>
             <div class="feature-grid">
                 <div class="card">
-                    <i class="fa-brands fa-telegram"></i>
-                    <h3>Chatbot Telegram</h3>
-                    <p>Webhook HTTPS oficial. Consultas en tiempo real (0.2s) para estatus de trámites desde el hogar.</p>
+                    <i class="fas fa-database"></i>
+                    <h3>Base de Datos (Model)</h3>
+                    <p>Lógica de datos centralizada mediante el potente <strong>Eloquent ORM</strong> de Laravel.</p>
                 </div>
                 <div class="card">
-                    <i class="fa-solid fa-comment-sms"></i>
-                    <h3>SMS Omnicanal</h3>
-                    <p>Integración Twilio API. Notificaciones nativas GSM para ciudadanos sin conexión a datos móviles.</p>
+                    <i class="fas fa-window-maximize"></i>
+                    <h3>Presentación (View)</h3>
+                    <p>Interfaces dinámicas y seguras utilizando el motor de plantillas <strong>Blade</strong>.</p>
                 </div>
                 <div class="card">
-                    <i class="fa-solid fa-file-pdf"></i>
-                    <h3>PDF Dinámicos</h3>
-                    <p>Motor DomPDF para generación de actas de entrega e informes bajo estándares ISO.</p>
+                    <i class="fas fa-brain"></i>
+                    <h3>Lógica (Controller)</h3>
+                    <p>Orquestación de peticiones, validaciones de seguridad y flujos de negocio.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>Servicios Externos</h3>
+                    <p>Capa desacoplada para APIs de terceros (Telegram y Twilio Cloud).</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 4: STACK -->
+        <!-- Slide 4: STACK BACKEND -->
         <div class="slide">
-            <h2 class="slide-title">Arquitectura Técnica</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <h2 class="slide-title">Infraestructura Backend</h2>
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;">
+                <ul class="styled-list">
+                    <li><i class="fab fa-php"></i> <div><strong>PHP 8.1 Engine:</strong> Motor de alto rendimiento con Tipado Estricto.</div></li>
+                    <li><i class="fab fa-laravel"></i> <div><strong>Laravel 8.x:</strong> El framework más seguro y popular del ecosistema PHP.</div></li>
+                    <li><i class="fas fa-shield-virus"></i> <div><strong>Security Patterns:</strong> Blindaje nativo contra SQLi y XSS.</div></li>
+                    <li><i class="fas fa-terminal"></i> <div><strong>Artisan Console:</strong> Herramientas CLI para optimización de servidor.</div></li>
+                </ul>
                 <div class="terminal">
-                    <div class="line"><span class="cmd">Framework:</span> Laravel 8.75</div>
-                    <div class="line"><span class="cmd">Engine:</span> PHP 8.1 (OOP)</div>
-                    <div class="line"><span class="cmd">Database:</span> MariaDB / MySQL</div>
-                    <div class="line"><span class="cmd">Frontend:</span> Bootstrap 5 + Vue.js</div>
-                    <div class="line"><span class="cmd">Notif:</span> Twilio + Telegram API</div>
+                    <div class="line"><span class="cmd">Runtime:</span> PHP 8.1 / MariaDB 10.4</div>
+                    <div class="line"><span class="cmd">Framework:</span> Laravel 8.75 Unified</div>
+                    <div class="line"><span class="cmd">Package Mgr:</span> Composer 2.0+</div>
+                    <div class="line"><span class="cmd">Encryption:</span> AES-256-CBC</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: STACK FRONTEND -->
+        <div class="slide">
+            <h2 class="slide-title">Experiencia de Usuario (UI/UX)</h2>
+            <div class="feature-grid">
+                <div class="card">
+                    <i class="fab fa-bootstrap"></i>
+                    <h3>AdminLTE 3 & BS5</h3>
+                    <p>Panel administrativo profesional, responsivo y adaptado a dispositivos móviles.</p>
                 </div>
                 <div class="card">
-                    <h3>Seguridad y Rapidez</h3>
-                    <ul style="list-style: none; padding-top: 10px;">
-                        <li style="margin-bottom: 10px;"><i class="fa-solid fa-shield-check" style="color: var(--primary)"></i> Encriptación Base64</li>
-                        <li style="margin-bottom: 10px;"><i class="fa-solid fa-bolt" style="color: var(--primary)"></i> Zero-Downtime Config</li>
-                        <li style="margin-bottom: 10px;"><i class="fa-solid fa-chart-line" style="color: var(--primary)"></i> Chart.js Real-time</li>
+                    <i class="fab fa-vuejs"></i>
+                    <h3>Componentes Vue.js</h3>
+                    <p>Interactividad reactiva para una carga de datos sin recargar la página.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Gráficos ejecutivos interactivos mediante la librería <strong>Chart.js</strong>.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-magic"></i>
+                    <h3>SweetAlert2</h3>
+                    <p>Feedback visual premium para confirmaciones y alertas sistémicas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: NÚCLEO DE DATOS -->
+        <div class="slide">
+            <h2 class="slide-title">Estructura Relacional</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="card">
+                    <h3>Entidades Core</h3>
+                    <ul class="styled-list">
+                        <li><i class="fas fa-users-cog"></i> <strong>Usuarios:</strong> Control de acceso ACL.</li>
+                        <li><i class="fas fa-address-book"></i> <strong>Beneficiarios:</strong> Padrón social detallado.</li>
+                        <li><i class="fas fa-mortar-pestle"></i> <strong>Inventario:</strong> Medicinas e insumos.</li>
+                        <li><i class="fas fa-ticket-alt"></i> <strong>Solicitudes:</strong> Trámites trazables.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Relaciones Maestras</h3>
+                    <p>Navegación fluida de datos para auditorías permanentes:</p>
+                    <ul class="styled-list">
+                        <li><i class="fas fa-code-branch"></i> Histórico por ciudadano.</li>
+                        <li><i class="fas fa-code-branch"></i> Desglose por renglones.</li>
+                        <li><i class="fas fa-code-branch"></i> Parametría dinámica.</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 5: CONCLUSIÓN -->
+        <!-- Slide 7: MÓDULOS OPERATIVOS -->
+        <div class="slide">
+            <h2 class="slide-title">Módulos Funcionales</h2>
+            <div class="feature-grid">
+                <div class="card">
+                    <h3>01 Gestión de Pacientes</h3>
+                    <p>Registro único, búsqueda elástica y telemetría de contacto nacional.</p>
+                </div>
+                <div class="card">
+                    <h3>02 Farmacia & WMS</h3>
+                    <p>Control de existencias, tipos (medicamentos/insumos) y alertas de stock bajo.</p>
+                </div>
+                <div class="card">
+                    <h3>03 Motor de Entregas</h3>
+                    <p>Ciclo de vida del ticket social desde la recepción hasta la entrega física.</p>
+                </div>
+                <div class="card">
+                    <h3>04 Reportes ISO</h3>
+                    <p>Generación de actas e informes en formato PDF con diseño institucional.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: NOTIFICACIONES OMNICANAL -->
+        <div class="slide">
+            <h2 class="slide-title">Comunicación Omnicanal</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div class="card" style="border-top: 4px solid var(--ven-blue);">
+                    <i class="fas fa-at"></i>
+                    <h3>Email Marketing Social</h3>
+                    <p>Envío automático de planillas y estatus mediante <strong>SMTP Automation</strong>. Incluye PDF adjunto trazable.</p>
+                </div>
+                <div class="card" style="border-top: 4px solid var(--ven-red);">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>SMS Alerta (Twilio)</h3>
+                    <p>Integración con red GSM global para notificar a ciudadanos sin conexión a internet o SmartPhones.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: MOTOR PDF PROFESIONAL -->
+        <div class="slide">
+            <h2 class="slide-title">Trazabilidad en Papel (PDF)</h2>
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center;">
+                <div>
+                    <p>Generación de documentos estandarizados mediante <strong>DomPDF</strong>. Compilación impecable del lado del servidor.</p>
+                    <ul class="styled-list">
+                        <li><i class="fas fa-file-contract"></i> Planillas de entrega oficiales.</li>
+                        <li><i class="fas fa-file-medical-alt"></i> Inventario de farmacia resumido.</li>
+                        <li><i class="fas fa-history"></i> Históricos de beneficiarios en 1 clic.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <i class="fas fa-print" style="font-size: 3rem;"></i>
+                    <p style="text-align: center; margin-top: 10px;">Formatos listos para impresión física o envío digital.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: TELEGRAM CHATBOT AI -->
+        <div class="slide">
+            <h2 class="slide-title">Bot de Auto-Consulta</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                <div class="card">
+                    <i class="fab fa-telegram" style="color: #2ca5e0;"></i>
+                    <h3>Chatbot Oficial</h3>
+                    <p>Integración HTTPS Webhook. Los ciudadanos consultan su trámite enviando solo su <strong>Cédula</strong>.</p>
+                </div>
+                <div class="card">
+                    <h3>Interactividad</h3>
+                    <p>El servidor SICMEC procesa y responde visualmente con:</p>
+                    <ul class="styled-list">
+                        <li><i class="fas fa-keyboard"></i> Menús de botones dinámicos.</li>
+                        <li><i class="fas fa-check-double"></i> Estatus real de medicinas.</li>
+                        <li><i class="fas fa-user-clock"></i> Cero colas presenciales.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: PRUEBAS LOCALES & TUNNELING -->
+        <div class="slide">
+            <h2 class="slide-title">Pruebas en Entorno Local</h2>
+            <p>Para emular la nube en un entorno de desarrollo (XAMPP/Localhost):</p>
+            <div class="terminal">
+                <div class="line"><span class="cmd">Paso 1:</span> Abrir Túnel (Localtunnel)</div>
+                <div class="line">   $ npx localtunnel --port 80</div>
+                <div class="line"><span class="cmd">Paso 2:</span> Actualizar .env con URL Temporal</div>
+                <div class="line">   APP_URL=https://mi-url-temporal.loca.lt</div>
+                <div class="line"><span class="cmd">Paso 3:</span> Activar Webhook de Telegram</div>
+                <div class="line">   $ GET /telegram/set-webhook</div>
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 10px;"><i class="fas fa-info-circle" style="color: var(--primary)"></i> Esto permite que los servidores de Telegram interactúen con tu PC local en milisegundos.</p>
+        </div>
+
+        <!-- Slide 12: CONFIGURACIÓN DINÁMICA -->
+        <div class="slide">
+            <h2 class="slide-title">Configuración Zero-Downtime</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;">
+                <div class="card">
+                    <i class="fas fa-sliders-h"></i>
+                    <h3>GUI de Configuración</h3>
+                    <p>Panel web para editar credenciales de APIS (SID, Tokens, Números) sin reiniciar servicios.</p>
+                </div>
+                <div>
+                    <p><strong>Persistencia Inteligente:</strong> Las "Master Keys" se almacenan en DB permitiendo cambios inmediatos ante renovaciones de suscripción de servicios en la nube.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: SEGURIDAD DE LA DATA -->
+        <div class="slide">
+            <h2 class="slide-title">Blindaje y Seguridad</h2>
+            <div class="feature-grid">
+                <div class="card">
+                    <i class="fas fa-user-lock"></i>
+                    <h3>ACL Roles</h3>
+                    <p>Protección middleware para asegurar que solo personal autorizado acceda a datos sensibles.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-fingerprint"></i>
+                    <h3>Auth Laravel</h3>
+                    <p>Hashing de contraseñas vía Bcrypt y manejo de sesiones seguras persistentes.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-user-secret"></i>
+                    <h3>Sanidad Git</h3>
+                    <p>Secretos fuera del repositorio público. Sanitización de SQL dumps para producción.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: WORKFLOW OPERATIVO -->
+        <div class="slide">
+            <h2 class="slide-title">Flujo Lógico (Ciclo SICMEC)</h2>
+            <ul class="styled-list">
+                <li><i class="fas fa-1"></i> <div><strong>Registro Beneficiario:</strong> Inserción de perfil social y contacto.</div></li>
+                <li><i class="fas fa-2"></i> <div><strong>Carga de Ticket:</strong> Selección de productos y resta automática de stock.</div></li>
+                <li><i class="fas fa-3"></i> <div><strong>Trigger de Alerta:</strong> Disparo asíncrono de SMS y Email al ciudadano.</div></li>
+                <li><i class="fas fa-4"></i> <div><strong>Seguimiento:</strong> El ciudadano consulta vía Bot su evolución.</div></li>
+                <li><i class="fas fa-5"></i> <div><strong>Entrega Final:</strong> Cierre de solicitud y generación de reporte de éxito.</div></li>
+            </ul>
+        </div>
+
+        <!-- Slide 15: DESPLIEGUE EN PRODUCCIÓN -->
+        <div class="slide">
+            <h2 class="slide-title">Escalabilidad & Despliegue</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="card">
+                    <h3>Requisitos Server</h3>
+                    <ul class="styled-list">
+                        <li><i class="fab fa-linux"></i> Ubuntu 22.04 LTS.</li>
+                        <li><i class="fas fa-certificate"></i> Certificado SSL (Mandatorio).</li>
+                        <li><i class="fas fa-clock"></i> PHP-FPM / FastCGI.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Optimización</h3>
+                    <p>Ejecutar en producción:</p>
+                    <div class="terminal" style="font-size: 0.7rem;">
+                        <div class="line">artisan config:cache</div>
+                        <div class="line">artisan view:cache</div>
+                        <div class="line">artisan route:cache</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: CONCLUSIÓN FINAL -->
         <div class="slide">
             <div style="text-align: center; margin-top: 50px;">
-                <i class="fa-solid fa-handshake-angle" style="font-size: 5rem; color: var(--primary); margin-bottom: 30px;"></i>
-                <h2 style="font-size: 3rem;">Gracias por su atención</h2>
-                <p style="font-size: 1.5rem; max-width: 700px; margin: 20px auto;">SICMEC: Hacia la digitalización de la gestión social en Venezuela.</p>
-                <div style="margin-top: 40px; color: var(--primary); font-family: 'JetBrains Mono';">¿Preguntas?</div>
+                <i class="fa-solid fa-handshake-angle" style="font-size: 5rem; color: var(--primary); margin-bottom: 25px;"></i>
+                <h2 style="font-size: 3rem;">Gracias por su Atención</h2>
+                <p style="font-size: 1.5rem; max-width: 800px; margin: 20px auto;">SICMEC: "Hacia la excelencia en la gestión social digital"</p>
+                <div style="margin-top: 40px; color: var(--primary); font-family: 'JetBrains Mono';">Salvaberticci | Ingeniería Informática</div>
             </div>
         </div>
     </div>
