@@ -42,10 +42,7 @@ class Factura extends Model
 		'total_medicamentos',
 		'estatus',
 		'atendido_por',
-		'observacion',
-		'archivo_planilla',
-		'medico_tratante',
-		'patologia'
+		'observacion'
 	];
 
 	public function cliente()

@@ -13,12 +13,3 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-
-# Database dumps and large files
-*.sql
-*.zip
-
-# Debug scripts
-/public/diag.php
-/public/test-real-request.php
-/public/verificar-sistema.php

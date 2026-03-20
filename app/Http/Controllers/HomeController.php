@@ -27,25 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {  
-        $title = "Escritorio";
+        $title="Escritorio";
+        return view('home', ['title'=>$title]);
         
-        $topPatologias = Factura::select('patologia', \DB::raw('count(*) as total'))
-            ->whereNotNull('patologia')
-            ->where('patologia', '!=', '')
-            ->groupBy('patologia')
-            ->orderBy('total', 'desc')
-            ->limit(5)
-            ->get();
-
-        $topMedicos = Factura::select('medico_tratante', \DB::raw('count(*) as total'))
-            ->whereNotNull('medico_tratante')
-            ->where('medico_tratante', '!=', '')
-            ->groupBy('medico_tratante')
-            ->orderBy('total', 'desc')
-            ->limit(5)
-            ->get();
-
-        return view('admin.home', compact('title', 'topPatologias', 'topMedicos'));
+        
     }
     public function reporteFichaBeneficiario(Request $request)
     {

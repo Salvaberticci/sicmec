@@ -1,45 +1,19 @@
 <?php
-// Función para cargar variables del .env
-function getEnvValue($key, $default = '')
-{
-    $path = __DIR__ . '/../.env';
-    if (file_exists($path)) {
-        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if (!$line || strpos($line, '#') === 0)
-                continue;
-            if (strpos($line, '=') === false)
-                continue;
 
-            list($name, $value) = explode('=', $line, 2);
-            if (trim($name) == $key) {
-                $value = trim($value);
-                // Remove quotes if present
-                if (
-                    (strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) ||
-                    (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1)
-                ) {
-                    $value = substr($value, 1, -1);
-                }
-                return $value;
-            }
-        }
-    }
-    return $default;
-}
 
-// Conexión dinámica usando el .env de Laravel
-$host = getEnvValue('DB_HOST', 'localhost');
-$dbname = getEnvValue('DB_DATABASE', 'sicmec');
-$user = getEnvValue('DB_USERNAME', 'root');
-$pass = getEnvValue('DB_PASSWORD', '');
+// Conexión directa a la base de datos - SIN LARAVEL
+$host = 'localhost';
+$dbname = 'sicmec';
+$user = 'root';
+$pass = '';
+
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 } catch (PDOException $e) {
-    die("Error de conexión en Reportes: " . $e->getMessage() . " (Verifica el archivo .env)");
+    die("Error de conexión: " . $e->getMessage());
 }
 
 // Determinar qué reporte generar
@@ -48,39 +22,25 @@ $filtro_cedula = $_GET['cedula'] ?? '';
 $filtro_nombre = $_GET['nombre'] ?? '';
 $filtro_tipo = $_GET['filtro_tipo'] ?? '';
 
-// Construir consultas con filtros - USANDO PREPARED STATEMENTS
-$params_clientes = [];
+// Construir consultas con filtros
 $where_clientes = "1=1";
-if ($filtro_cedula) {
-    $where_clientes .= " AND cedula LIKE ?";
-    $params_clientes[] = "%$filtro_cedula%";
-}
-if ($filtro_nombre) {
-    $where_clientes .= " AND nombre LIKE ?";
-    $params_clientes[] = "%$filtro_nombre%";
-}
+if ($filtro_cedula)
+    $where_clientes .= " AND cedula LIKE '%$filtro_cedula%'";
+if ($filtro_nombre)
+    $where_clientes .= " AND nombre LIKE '%$filtro_nombre%'";
 
-$params_productos = [];
 $where_productos = "1=1";
-if ($filtro_tipo) {
-    $where_productos .= " AND tipo = ?";
-    $params_productos[] = $filtro_tipo;
-}
+if ($filtro_tipo)
+    $where_productos .= " AND tipo = '$filtro_tipo'";
 
-// Ejecutar consultas de forma segura
-$stmt = $pdo->prepare("SELECT * FROM clientes WHERE $where_clientes");
-$stmt->execute($params_clientes);
-$clientes = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-$stmt = $pdo->prepare("SELECT * FROM productos WHERE $where_productos");
-$stmt->execute($params_productos);
-$productos = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-$facturas = $pdo->query("SELECT f.*, c.nombre as cliente_nombre
-FROM facturas f
-LEFT JOIN clientes c ON f.cliente_id = c.id
-ORDER BY f.created_at DESC
-LIMIT 50")->fetchAll(PDO::FETCH_OBJ);
+// Ejecutar consultas
+$clientes = $pdo->query("SELECT * FROM clientes WHERE $where_clientes")->fetchAll(PDO::FETCH_OBJ);
+$productos = $pdo->query("SELECT * FROM productos WHERE $where_productos")->fetchAll(PDO::FETCH_OBJ);
+$facturas = $pdo->query("SELECT f.*, c.nombre as cliente_nombre 
+                         FROM facturas f 
+                         LEFT JOIN clientes c ON f.cliente_id = c.id 
+                         ORDER BY f.created_at DESC 
+                         LIMIT 50")->fetchAll(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -359,9 +319,8 @@ LIMIT 50")->fetchAll(PDO::FETCH_OBJ);
                                         <td><?= htmlspecialchars($cliente->nombre) ?></td>
                                         <td><?= htmlspecialchars($cliente->telefono) ?></td>
                                         <td><?= htmlspecialchars($cliente->direccion) ?></td>
-                                        <td><span
-                                                class="badge bg-<?= (isset($cliente->saldo) && $cliente->saldo > 0) ? 'warning' : 'success' ?>">
-                                                <?= number_format($cliente->saldo ?? 0, 2) ?>
+                                        <td><span class="badge bg-<?= $cliente->saldo > 0 ? 'warning' : 'success' ?>">
+                                                <?= number_format($cliente->saldo, 2) ?>
                                             </span></td>
                                         <td><?= htmlspecialchars($cliente->nro_expediente) ?></td>
                                     </tr>
@@ -460,7 +419,7 @@ LIMIT 50")->fetchAll(PDO::FETCH_OBJ);
 
         <!-- Pie de página -->
         <div class="text-center mt-4 text-muted">
-            <p>&copy; 2026 Sicmec. Todos los derechos reservados. - Sistema SICMEC v1.0</p>
+            <p>Generado el <?= date('d/m/Y H:i:s') ?> - Sistema SICMEC v1.0</p>
         </div>
     </div>
 

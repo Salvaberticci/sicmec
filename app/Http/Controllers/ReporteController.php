@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\Factura;
-use App\Models\FacturasRenglone;
+use App\Models\FacturaRenglone;
+use PDF;
 
 
 
@@ -16,7 +17,7 @@ class ReporteController extends Controller
 {
     public function index()
     {
-        return view('admin.reportes.index', ['title' => 'Reportes']);
+        return view('reportes.index', ['title' => 'Reportes']);
     }
 
     public function fichaBeneficiario(Request $request)
@@ -35,14 +36,11 @@ class ReporteController extends Controller
 
         if ($request->has('generar_pdf')) {
             $title = 'Reporte de Beneficiarios';
-            $pdf = \PDF::loadView('pdf.beneficiarios', compact('clientes', 'title'));
+            $pdf = PDF::loadView('pdf.beneficiarios', compact('clientes', 'title'));
             return $pdf->stream('ficha_beneficiarios_' . date('Y-m-d') . '.pdf');
         }
 
-        return view('admin.reportes.ficha_beneficiario', [
-            'clientes' => $clientes,
-            'title' => 'Ficha de Beneficiario'
-        ]);
+        return view('reportes.ficha_beneficiario', compact('clientes'));
     }
 
     public function inventario(Request $request)
@@ -65,14 +63,11 @@ class ReporteController extends Controller
 
         if ($request->has('generar_pdf')) {
             $title = 'Reporte de Inventario';
-            $pdf = \PDF::loadView('pdf.inventario', compact('productos', 'title'));
+            $pdf = PDF::loadView('pdf.inventario', compact('productos', 'title'));
             return $pdf->stream('inventario_' . date('Y-m-d') . '.pdf');
         }
 
-        return view('admin.reportes.inventario', [
-            'productos' => $productos,
-            'title' => 'Reporte de Inventario'
-        ]);
+        return view('reportes.inventario', compact('productos'));
     }
 
     public function solicitudes(Request $request)
@@ -95,91 +90,15 @@ class ReporteController extends Controller
             $facturas->where('cliente_id', $request->cliente_id);
         }
 
-        if ($request->has('medico') && $request->medico != '') {
-            $facturas->where('medico_tratante', 'like', '%' . $request->medico . '%');
-        }
-
-        if ($request->has('patologia') && $request->patologia != '') {
-            $facturas->where('patologia', 'like', '%' . $request->patologia . '%');
-        }
-
         $facturas = $facturas->get();
         $clientes = Cliente::all();
 
         if ($request->has('generar_pdf')) {
             $title = 'Reporte de Solicitudes';
-            $pdf = \PDF::loadView('pdf.solicitudes_list', compact('facturas', 'title'));
+            $pdf = PDF::loadView('pdf.solicitudes_list', compact('facturas', 'title'));
             return $pdf->stream('solicitudes_' . date('Y-m-d') . '.pdf');
         }
 
-        return view('admin.reportes.solicitudes', [
-            'facturas' => $facturas,
-            'clientes' => $clientes,
-            'title' => 'Reporte de Solicitudes'
-        ]);
-    }
-
-    public function reporteMedico(Request $request)
-    {
-        $medicos = Factura::select('medico_tratante')
-            ->whereNotNull('medico_tratante')
-            ->where('medico_tratante', '!=', '')
-            ->distinct()
-            ->get();
-
-        if ($request->has('medico') && $request->medico != '') {
-            $facturas = Factura::with(['cliente', 'facturas_renglones.producto'])
-                ->where('medico_tratante', $request->medico)
-                ->get();
-            
-            if ($request->has('generar_pdf')) {
-                $title = 'Reporte de Solicitudes - Médico: ' . $request->medico;
-                $pdf = \PDF::loadView('pdf.solicitudes_list', compact('facturas', 'title'));
-                return $pdf->stream('reporte_medico_' . str_replace(' ', '_', $request->medico) . '.pdf');
-            }
-            return view('admin.reportes.medico', [
-                'facturas' => $facturas,
-                'medicos' => $medicos,
-                'request' => $request,
-                'title' => 'Reporte por Médico'
-            ]);
-        }
-    
-        return view('admin.reportes.medico', [
-            'medicos' => $medicos,
-            'title' => 'Reporte por Médico'
-        ]);
-    }
-
-    public function reportePatologia(Request $request)
-    {
-        $patologias = Factura::select('patologia')
-            ->whereNotNull('patologia')
-            ->where('patologia', '!=', '')
-            ->distinct()
-            ->get();
-
-        if ($request->has('patologia') && $request->patologia != '') {
-            $facturas = Factura::with(['cliente', 'facturas_renglones.producto'])
-                ->where('patologia', $request->patologia)
-                ->get();
-
-            if ($request->has('generar_pdf')) {
-                $title = 'Reporte de Solicitudes - Patología: ' . $request->patologia;
-                $pdf = \PDF::loadView('pdf.solicitudes_list', compact('facturas', 'title'));
-                return $pdf->stream('reporte_patologia_' . str_replace(' ', '_', $request->patologia) . '.pdf');
-            }
-            return view('admin.reportes.patologia', [
-                'facturas' => $facturas,
-                'patologias' => $patologias,
-                'request' => $request,
-                'title' => 'Reporte por Patología'
-            ]);
-        }
-    
-        return view('admin.reportes.patologia', [
-            'patologias' => $patologias,
-            'title' => 'Reporte por Patología'
-        ]);
+        return view('reportes.solicitudes', compact('facturas', 'clientes'));
     }
 }

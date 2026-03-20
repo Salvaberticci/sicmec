@@ -6,8 +6,6 @@
             <tr>
                 <th>ID</th>
                 <th>Beneficiario</th>
-                <th>Médico</th>
-                <th>Patología</th>
                 <th>Estatus</th>
                 <th>Items</th>
                 <th>Fecha</th>
@@ -19,8 +17,6 @@
                 <tr>
                     <td class="font-bold">#{{ $factura->id }}</td>
                     <td>{{ $factura->cliente->nombre ?? 'N/A' }}</td>
-                    <td>{{ $factura->medico_tratante ?? '-' }}</td>
-                    <td>{{ $factura->patologia ?? '-' }}</td>
                     <td>
                         <span class="badge {{ 
                                     $factura->estatus == 'Finalizado' ? 'bg-success' :

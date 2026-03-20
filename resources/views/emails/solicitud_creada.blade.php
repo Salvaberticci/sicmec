@@ -141,12 +141,6 @@
             <div class="info-box">
                 <p>📋 <strong>N° de Solicitud:</strong> #{{ $factura->id }}</p>
                 <p>📅 <strong>Fecha:</strong> {{ $factura->created_at->format('d/m/Y H:i') }}</p>
-                @if($factura->medico_tratante)
-                    <p>👨‍⚕️ <strong>Médico:</strong> {{ $factura->medico_tratante }}</p>
-                @endif
-                @if($factura->patologia)
-                    <p>🏥 <strong>Patología:</strong> {{ $factura->patologia }}</p>
-                @endif
                 <p>📊 <strong>Estatus actual:</strong>
                     <span style="background: {{ $factura->estatus == 'Aprobada' || $factura->estatus == 'Finalizado' ? '#d4edda' : ($factura->estatus == 'Procesando' ? '#fff3cd' : '#e2e3e5') }}; 
                                  color: {{ $factura->estatus == 'Aprobada' || $factura->estatus == 'Finalizado' ? '#155724' : ($factura->estatus == 'Procesando' ? '#856404' : '#383d41') }}; 

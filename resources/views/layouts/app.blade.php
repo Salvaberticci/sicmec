@@ -215,10 +215,10 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link  @if(Request::is('reportes*')) active bg-white @endif text-white" href="{{ route('reportes.index') }}">
-                <i class="fas fa-chart-bar nav-icon"></i>
-                <p>Reportes</p>
+            <li class="nav-item menu-open">
+              <a class="nav-link" href="/sicmec/public/reportes-directo.php" target="_blank"
+                style="color:white;margin-left:8px;">
+                <i class="fas fa-chart-bar" style="color:white;margin-right:7px;"></i> Reportes
               </a>
             </li>
             {{-- <li class="nav-item menu-open">
@@ -340,7 +340,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-      <strong>Copyright &copy; 2026 Sicmec.</strong>
+      <strong>Copyright &copy; 2023.</strong>
       Todos los derechos reservados.
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 0.0.1
@@ -367,13 +367,11 @@
   <script src="{{asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
   <!-- ChartJS -->
   <script src="{{asset("plugins/chart.js/Chart.min.js")}}"></script>
-  @if(Request::is('home'))
-    <!-- Sparkline -->
-    <script src="{{asset("plugins/sparklines/sparkline.js")}}"></script>
-    <!-- JQVMap -->
-    <script src="{{asset("plugins/jqvmap/jquery.vmap.min.js")}}"></script>
-    <script src="{{asset("plugins/jqvmap/maps/jquery.vmap.usa.js")}}"></script>
-  @endif
+  <!-- Sparkline -->
+  <script src="{{asset("plugins/sparklines/sparkline.js")}}"></script>
+  <!-- JQVMap -->
+  <script src="{{asset("plugins/jqvmap/jquery.vmap.min.js")}}"></script>
+  <script src="{{asset("plugins/jqvmap/maps/jquery.vmap.usa.js")}}"></script>
   <!-- jQuery Knob Chart -->
   <script src="{{asset("plugins/jquery-knob/jquery.knob.min.js")}}"></script>
   <!-- daterangepicker -->
@@ -403,10 +401,8 @@
   <!-- AdminLTE for demo purposes -->
   {{--
   <script src="{{asset(" dist/js/demo.js")}}"></script> --}}
-  @if(Request::is('home'))
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{asset("dist/js/pages/dashboard.js")}}"></script>
-  @endif
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="{{asset("dist/js/pages/dashboard.js")}}"></script>
   <script src="{{asset("dist/js/bootstrap-notify.min.js")}}"></script>
   <script>
     $(function () {

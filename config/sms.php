@@ -6,7 +6,7 @@
 return [
     'driver' => 'twilio',
 
-    'from' => env('TWILIO_NUMBER', '+15076691571'),
+    'from' => env('TWILIO_NUMBER', 'YOUR_TWILIO_NUMBER'),
 
     'twilio' => [
         'account_sid' => env('TWILIO_SID'),

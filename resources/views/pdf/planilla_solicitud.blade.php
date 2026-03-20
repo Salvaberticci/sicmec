@@ -123,18 +123,6 @@
                 <td><strong>Atendido por:</strong></td>
                 <td>{{ $factura->atendido_por ?? 'N/A' }}</td>
             </tr>
-            @if($factura->medico_tratante)
-                <tr>
-                    <td><strong>Médico Tratante:</strong></td>
-                    <td>{{ $factura->medico_tratante }}</td>
-                </tr>
-            @endif
-            @if($factura->patologia)
-                <tr>
-                    <td><strong>Patología:</strong></td>
-                    <td>{{ $factura->patologia }}</td>
-                </tr>
-            @endif
             @if($factura->observacion)
                 <tr>
                     <td><strong>Observación:</strong></td>
@@ -191,63 +179,25 @@
                 </tr>
             </thead>
             <tbody>
-                @if(isset($factura->facturas_renglones) && count($factura->facturas_renglones) > 0)
-                    @foreach($factura->facturas_renglones as $i => $renglon)
-                        <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>{{ $renglon->producto->nombre_producto ?? 'N/A' }}</td>
-                            <td>{{ $renglon->producto->presentacion ?? '-' }}</td>
-                            <td>{{ $renglon->producto->unidad ?? '-' }}</td>
-                            <td>{{ $renglon->cantidad }}</td>
-                        </tr>
-                    @endforeach
-                @else
+                @forelse($factura->facturas_renglones as $i => $renglon)
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $renglon->producto->nombre_producto ?? 'N/A' }}</td>
+                        <td>{{ $renglon->producto->presentacion ?? '-' }}</td>
+                        <td>{{ $renglon->producto->unidad ?? '-' }}</td>
+                        <td>{{ $renglon->cantidad }}</td>
+                    </tr>
+                @empty
                     <tr>
                         <td colspan="5" style="text-align:center;">Sin productos registrados</td>
                     </tr>
-                @endif
+                @endforelse
             </tbody>
         </table>
         <p style="text-align:right; font-weight:bold; margin-top:8px;">
             Total de ítems: {{ $factura->total_medicamentos }}
         </p>
     </div>
-
-    @if($factura->archivo_planilla)
-        <div class="section" style="page-break-inside: avoid;">
-            <div class="section-title">🖼️ Imagen de Referencia (Planilla)</div>
-            <div style="text-align: center; margin-top: 10px;">
-                @php
-                    $path = $factura->archivo_planilla;
-                    $imagePath = public_path($path);
-
-                    // Robust path resolution for different environments
-                    if (!file_exists($imagePath)) {
-                        $imagePath = base_path('public/' . $path);
-                    }
-
-                    $imageData = "";
-                    if (file_exists($imagePath)) {
-                        try {
-                            $type = pathinfo($imagePath, PATHINFO_EXTENSION);
-                            $data = file_get_contents($imagePath);
-                            $imageData = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                        } catch (\Exception $e) {
-                            $imageData = "";
-                        }
-                    }
-                @endphp
-                @if ($imageData)
-                    <img src="{{ $imageData }}"
-                        style="max-width: 100%; max-height: 450px; border: 1px solid #ddd; border-radius: 5px;">
-                @else
-                    <p style="color: #888; font-style: italic;">(Archivo de imagen no encontrado o ilegible:
-                        {{ $path }})
-                    </p>
-                @endif
-            </div>
-        </div>
-    @endif
 
     <div class="footer">
         <p>Este documento fue generado automáticamente por el Sistema SICMEC.</p>

@@ -133,16 +133,6 @@
                   <input type="text" name="atendido_por" id="atendido_por" class="form-control">
                 </div>
 
-                <div class="form-group">
-                  <label for="medico_tratante">Médico Tratante</label>
-                  <input type="text" name="medico_tratante" id="medico_tratante" class="form-control">
-                </div>
-
-                <div class="form-group">
-                  <label for="patologia">Patología</label>
-                  <input type="text" name="patologia" id="patologia" class="form-control">
-                </div>
-
 
                 <select class="form-control mb-3 mt-3" name="estatus" id="estatus" required>
                   <option value>Selecciona el estatus</option>
@@ -150,15 +140,6 @@
                   <option value="Procesando">Procesado</option>
                   <option value="Finalizado">Finalizado</option>
                 </select>
-
-                <div class="form-group">
-                  <label for="archivo_planilla">Subir Planilla (Imagen)</label>
-                  <input type="file" name="archivo_planilla" id="archivo_planilla" class="form-control" accept="image/*">
-                  <div id="edit-image-preview" class="mt-2 text-center" style="display:none;">
-                    <p class="small text-muted mb-1">Imagen actual:</p>
-                    <img id="current-planilla-img" src="" class="img-thumbnail" style="max-height: 150px;">
-                  </div>
-                </div>
 
 
                 <hr>
@@ -290,18 +271,6 @@
               <div class="col">
                 <p><span class="font-weight-bold">📧 Correo:</span> <br> <span id="correo-d"></span></p>
               </div>
-              <div class="col">
-                <p><span class="font-weight-bold">👨‍⚕️ Médico:</span> <br> <span id="medico_tratante-d"></span></p>
-              </div>
-              <div class="col">
-                <p><span class="font-weight-bold">🩺 Patología:</span> <br> <span id="patologia-d"></span></p>
-              </div>
-              <div class="col-12 mt-3">
-                <p><span class="font-weight-bold">Planilla:</span></p>
-                <div id="planilla-container-d" class="text-center">
-                  <!-- Imagen se cargará aquí -->
-                </div>
-              </div>
             </div>
           </div>
 
@@ -348,14 +317,11 @@
               <th>Cedula</th>
               <th>Teléfono</th>
               <th>Direccion</th>
-              <th>Médico</th>
-              <th>Patología</th>
               <th>Estatus</th>
               <th>Fecha</th>
               <th>UD</th>
               <th>VenAPP</th>
               <th>Atendido Por</th>
-              <th>Planilla</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -369,14 +335,11 @@
               <th>Cedula</th>
               <th>Teléfono</th>
               <th>Direccion</th>
-              <th>Médico</th>
-              <th>Patología</th>
               <th>Estatus</th>
               <th>Fecha</th>
               <th>UD</th>
               <th>VenAPP</th>
               <th>Atendido Por</th>
-              <th>Planilla</th>
               <th class="text-center">Acciones</th>
             </tr>
           </tfoot>
@@ -396,16 +359,14 @@
   <script>
     var id = "";
     var products = [];
-    var baseUrl = "{{ asset('') }}";
 
     index();
 
     $('#btn-add').click(function () {
       $('#form-bill-edit').attr('id', 'form-bill');
       $('#form-bill').trigger('reset');
-      $('#edit-image-preview').hide();
-      $('#btn-submit').attr('class', 'btn btn-success btn-lg w-100').html('<i class="fa fa-check"></i> Registrar');
-      $('#staticBackdropLabel').html('<i class="fa fa-plus"></i> Nueva solicitud de medicamentos');
+      $('#btn-submit').attr('class', 'btn btn-success btn-lg').html('<i class="fa fa-check"></i> Registrar');
+      $('#staticBackdropLabel').html('<i class="fa fa-plus"></i> Registrar salida');
       products = [];
       index_cart();
     });
@@ -521,17 +482,17 @@
       if (products.length > 0) {
         products.forEach(e => {
           template += `
-                                    <tr class="text-center">
-                                      <td>${e.descripcion}</td>
-                                      <td>${e.cantidad}</td>
-                                      <td>${e.presentacionText}</td>
-                                      <td>${e.tipo}</td>
-                                      <td>${e.unidad}</td>
-                                      <td>
-                                          <button type="button" class="btn btn-danger btn-sm delete-product" data-id="${e.id}" title="Eliminar producto"><i class="fa fa-trash"></i></button>  
-                                      </td>
-                                    </tr>
-                                  `;
+                  <tr class="text-center">
+                    <td>${e.descripcion}</td>
+                    <td>${e.cantidad}</td>
+                    <td>${e.presentacionText}</td>
+                    <td>${e.tipo}</td>
+                    <td>${e.unidad}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm delete-product" data-id="${e.id}" title="Eliminar producto"><i class="fa fa-trash"></i></button>  
+                    </td>
+                  </tr>
+                `;
           total_medicamentos = parseFloat(total_medicamentos) + parseFloat(e.cantidad);
         });
         $('#products-body').html(template);
@@ -600,7 +561,7 @@
         }
       })
 
-      fetch(baseUrl + 'api/facturas/store', {
+      fetch('api/facturas/store', {
         method: 'POST',
         body: form
       }).then(res => res.json()
@@ -697,7 +658,7 @@
             }
           })
 
-          fetch(baseUrl + 'api/facturas/destroy/' + id, {
+          fetch('api/facturas/destroy/' + id, {
             method: 'GET',
           }).then(res => res.text()
           ).then(function (data) {
@@ -752,7 +713,7 @@
         }
       })
 
-      fetch(baseUrl + 'api/facturas/' + id, {
+      fetch('api/facturas/' + id, {
         method: 'GET',
       }).then(response => response.json()
       ).then(function (res) {
@@ -769,29 +730,20 @@
         $('input[name=correo]').val(res.data.cliente.correo);
         $('input[name=observacion]').val(res.data.observacion);
         $('input[name=atendido_por]').val(res.data.atendido_por);
-        $('input[name=medico_tratante]').val(res.data.medico_tratante);
-        $('input[name=patologia]').val(res.data.patologia);
-        $('select[name=estatus]').val(res.data.estatus);
-
-        if (res.data.archivo_planilla) {
-          $('#current-planilla-img').attr('src', baseUrl + res.data.archivo_planilla);
-          $('#edit-image-preview').show();
-        } else {
-          $('#edit-image-preview').hide();
-        }
+        $('select[name=estatus]').prepend(`<option selected>${res.data.estatus}</option>`);
 
         res.data.facturas_renglones.forEach(e => {
-          if (e.producto && e.producto.presentacion != 0) {
+          if (e.producto.presentacion != 0) {
             if (e.producto.tipo == "ayudasTecnicas") {
-              presentacion = (e.producto.tipo_ayudas != null) ? e.producto.tipo_ayudas.descripcion : "";
+              presentacion = e.producto.tipo_ayudas.descripcion
             }
 
             if (e.producto.tipo == "medicamento") {
-              presentacion = (e.producto.tipo_medicamentos != null) ? e.producto.tipo_medicamentos.descripcion : "";
+              presentacion = e.producto.tipo_medicamentos.descripcion
             }
 
             if (e.producto.tipo == "insumo") {
-              presentacion = (e.producto.tipo_insumo != null) ? e.producto.tipo_insumo.descripcion : "";
+              presentacion = e.producto.tipo_insumo.descripcion
             }
 
           } else {
@@ -800,17 +752,15 @@
 
 
           unidades = (e.peso != null || e.unidad != null) ? e.peso + " " + e.unidad : "<span><b><i>No aplica</i></b></span>";
-          if (e.producto) {
-            products.push({
-              id: e.producto_id,
-              descripcion: e.producto.nombre_producto,
-              cantidad: e.cantidad,
-              presentacion: e.producto.presentacion,
-              presentacionText: presentacion,
-              tipo: e.producto.tipo,
-              unidad: unidades,
-            });
-          }
+          products.push({
+            id: e.producto_id,
+            descripcion: e.producto.nombre_producto,
+            cantidad: e.cantidad,
+            presentacion: e.producto.presentacion,
+            presentacionText: presentacion,
+            tipo: e.producto.tipo,
+            unidad: unidades,
+          });
         })
         index_cart();
 
@@ -858,14 +808,15 @@
         }
       })
 
-      fetch(baseUrl + 'api/facturas/update/' + id, {
+      fetch('api/facturas/update/' + id, {
         method: 'POST',
+        'X-CSRF-TOKEN': "{{csrf_token()}}",
         body: form
       }).then(res => res.text()
       ).then(function (data) {
         console.log(data)
         if (data) {
-          $('#add').modal('hide');
+          $('#form-client-edit').trigger("reset");
           Swal.fire(
             '¡Perfecto!',
             'Registro modificado con éxito',
@@ -910,7 +861,7 @@
         }
       })
 
-      fetch(baseUrl + 'api/facturas/' + id, {
+      fetch('api/facturas/' + id, {
         method: 'GET',
       }).then(response => response.json()
       ).then(function (res) {
@@ -922,8 +873,6 @@
         $('show[name=nro_expediente]').val(res.data.cliente.nro_expediente);
         $('show[name=ubch_centro_electoral]').val(res.data.cliente.ubch_centro_electoral);
         $('show[name=observacion]').val(res.data.observacion);
-        $('input[name=medico_tratante]').val(res.data.medico_tratante);
-        $('input[name=patologia]').val(res.data.patologia);
         $('select[name=estatus]').val(res.data.estatus);
 
         res.data.facturas_renglones.forEach(e => {
@@ -955,7 +904,7 @@
     $(document).on('click', '.btn-examinar', function () {
       let id = $(this).attr('data-id'),
         template = "";
-      fetch(baseUrl + 'api/facturas/' + id)
+      fetch('api/facturas/' + id)
         .then(response => response.json()
         ).then(res => {
           console.log(res)
@@ -969,16 +918,7 @@
           $('#ubch_centro_electoral-d').html(res.data.cliente.ubch_centro_electoral)
           $('#observacion-d').html(res.data.observacion)
           $('#correo-d').html(res.data.cliente.correo)
-          $('#medico_tratante-d').html(res.data.medico_tratante)
-          $('#patologia-d').html(res.data.patologia)
           $('#total_medicamentos-d').html(res.data.total_medicamentos)
-
-          if (res.data.archivo_planilla) {
-            let imgUrl = baseUrl + res.data.archivo_planilla;
-            $('#planilla-container-d').html(`<a href="${imgUrl}" target="_blank"><img src="${imgUrl}" class="img-fluid img-thumbnail" style="max-height: 400px;"></a>`);
-          } else {
-            $('#planilla-container-d').html('<span class="text-muted">No se ha subido ninguna planilla</span>');
-          }
 
           res.data.facturas_renglones.forEach(e => {
             if (e.presentacion != 0) {
@@ -1001,14 +941,14 @@
 
             unidades = (e.peso != null || e.unidad != null) ? e.peso + " " + e.unidad : "<span><b><i>No aplica</i></b></span>";
             template += `
-                              <tr class="text-center">
-                                <td>${e.producto.nombre_producto}</td>
-                                <td>${e.cantidad}</td>
-                                <td>${presentacion}</td>
-                                <td>${e.producto.tipo}</td>
-                                <td>${unidades}</td>
-                              </tr>
-                              `
+            <tr class="text-center">
+              <td>${e.producto.nombre_producto}</td>
+              <td>${e.cantidad}</td>
+              <td>${presentacion}</td>
+              <td>${e.producto.tipo}</td>
+              <td>${unidades}</td>
+            </tr>
+            `
           })
 
           $('#products-body-d').html(template)
@@ -1022,7 +962,7 @@
     })
 
     async function index() {
-      return await fetch(baseUrl + 'api/facturas')
+      return await fetch('api/facturas')
         .then(response => response.json())
         .then(res => {
           console.log("Hola")
@@ -1046,29 +986,24 @@
 
             const fechaFormateada = `${dia}/${mes}/${anio}`;
             template += `
-                                          <tr>
-                                            <td>${i}</td>
-                                            <td>${e.cliente.nombre}</td>
-                                            <td>${(e.cliente.cedula != null) ? e.cliente.cedula : "S/N"}</td>
-                                            <td>${(e.cliente.telefono != null) ? e.cliente.telefono : "S/N"}</td>
-                                            <td>${(e.cliente.direccion != null && e.cliente.direccion != "") ? e.cliente.direccion : "S/D"}</td>
-                                            <td>${e.medico_tratante ?? "S/N"}</td>
-                                            <td>${e.patologia ?? "S/N"}</td>
-                                            <td>${e.estatus}</td>
-                                            <td>${fechaFormateada}</td>
-                                            <td>${e.total_medicamentos}</td>
-                                            <td>${(e.cliente.observacion != null && e.cliente.observacion != "") ? e.cliente.observacion : "S/N"}</td>
-                                            <td>${e.atendido_por}</td>
-                                            <td>
-                                              ${e.archivo_planilla ? `<a href="${baseUrl + e.archivo_planilla}" target="_blank"><img src="${baseUrl + e.archivo_planilla}" style="width: 50px; height: 50px; object-fit: cover;" class="img-thumbnail"></a>` : '<i class="fa fa-times-circle fa-2x text-muted"></i>'}
-                                            </td>
+                        <tr>
+                          <td>${i}</td>
+                          <td>${e.cliente.nombre}</td>
+                          <td>${(e.cliente.cedula != null) ? e.cliente.cedula : "S/N"}</td>
+                          <td>${(e.cliente.telefono != null) ? e.cliente.telefono : "S/N"}</td>
+                          <td>${(e.cliente.direccion != null && e.cliente.direccion != "") ? e.cliente.direccion : "S/D"}</td>
+                          <td>${e.estatus}</td>
+                          <td>${fechaFormateada}</td>
+                          <td>${e.total_medicamentos}</td>
+                          <td>${(e.cliente.observacion != null && e.cliente.observacion != "") ? e.cliente.observacion : "S/N"}</td>
+                          <td>${e.atendido_por}</td>
 
-                                            <td class="d-flex justify-content-center">
-                                              <a href="#" data-id="${e.id}"  class="btn btn-secondary btn-sm btn-examinar m-1" title="Examinar registro"><i class="fa fa-search"></i></a>
-                                              <a href="#" data-id="${e.id}" class="btn btn-info btn-sm edit m-1" title="Editar registro"><i class="fa fa-edit"></i></a>
-                                              <a href="#" data-id="${e.id}" class="btn btn-dark btn-sm delete m-1" title="Eliminar registro"><i class="fa fa-trash"></i></a>
-                                            </td>
-                                          </tr>`;
+                          <td class="d-flex justify-content-center">
+                            <a href="#" data-id="${e.id}"  class="btn btn-secondary btn-sm btn-examinar m-1" title="Examinar registro"><i class="fa fa-search"></i></a>
+                            <a href="#" data-id="${e.id}" class="btn btn-info btn-sm edit m-1" title="Editar registro"><i class="fa fa-edit"></i></a>
+                            <a href="#" data-id="${e.id}" class="btn btn-dark btn-sm delete m-1" title="Eliminar registro"><i class="fa fa-trash"></i></a>
+                          </td>
+                        </tr>`;
 
             i++;
           })
@@ -1104,21 +1039,21 @@
             }
 
             template_productos += `
-                                            <tr>
-                                            <td class="id">${e.id}</td>
-                                            <td class="nombre_producto">${e.nombre_producto}</td>
-                                            <td class="r-cantidad"><input type="text" min="1" value="1" class="form-control cantidad" onkeypress="return validator.soloNumeros(event)"></td>
-                                            <td class="existencia">${(e.existencia <= 0) ? 0 : e.existencia}</td>
-                                            <td class="tipo">
-                                                ${presentacion}
-                                            </td>
-                                            <td class="unidad">${unidad}</td>
-                                            <td>
-                                              <button type="button" class="btn btn-primary btn-sm btn-plus w-100">
-                                                <i class="fa fa-plus"></i>
-                                              </button>
-                                            </td>
-                                          </tr>`;
+                          <tr>
+                          <td class="id">${e.id}</td>
+                          <td class="nombre_producto">${e.nombre_producto}</td>
+                          <td class="r-cantidad"><input type="text" min="1" value="1" class="form-control cantidad" onkeypress="return validator.soloNumeros(event)"></td>
+                          <td class="existencia">${(e.existencia <= 0) ? 0 : e.existencia}</td>
+                          <td class="tipo">
+                              ${presentacion}
+                          </td>
+                          <td class="unidad">${unidad}</td>
+                          <td>
+                            <button type="button" class="btn btn-primary btn-sm btn-plus w-100">
+                              <i class="fa fa-plus"></i>
+                            </button>
+                          </td>
+                        </tr>`;
 
 
           })
@@ -1148,9 +1083,7 @@
 
 
 
-          if ($.fn.DataTable.isDataTable('#tabla-solicitudes')) {
-            $('#tabla-solicitudes').DataTable().destroy();
-          }
+          $('#tabla-solicitudes').DataTable().destroy();
           $('#tabla-solicitudes > tbody').html(template);
           $('#tabla-solicitudes').DataTable({
             "responsive": true,
@@ -1161,9 +1094,7 @@
           });
 
 
-          if ($.fn.DataTable.isDataTable('#tabla-productos')) {
-            $('#tabla-productos').DataTable().destroy();
-          }
+          $('#tabla-productos').DataTable().destroy();
           $('#tbody-productos').html(template_productos);
           $('#tabla-productos').DataTable({
             "responsive": true,

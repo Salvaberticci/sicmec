@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/inventario', 'admin.products.index', ['title' => "Inventario"])->name('products.index');
     Route::view('/beneficiarios', 'admin.clients.index', ['title' => "Beneficiarios"])->name('clients.index');
     Route::view('/usuarios', 'admin.users.index', ['title' => "Usuarios"])->name('users.index');
+    Route::view('/reportes', 'reportes.index', ['title' => "Reportes"])->name('reportes.index');
 
     // RUTA DE CONFIGURACIÓN
     Route::get('/configuracion', [App\Http\Controllers\ConfiguracionController::class, 'index'])->name('config.index');
@@ -44,8 +45,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/ficha-beneficiario', [ReporteController::class, 'fichaBeneficiario'])->name('reportes.ficha-beneficiario');
         Route::get('/inventario', [ReporteController::class, 'inventario'])->name('reportes.inventario');
         Route::get('/solicitudes', [ReporteController::class, 'solicitudes'])->name('reportes.solicitudes');
-        Route::get('/medico', [ReporteController::class, 'reporteMedico'])->name('reportes.medico');
-        Route::get('/patologia', [ReporteController::class, 'reportePatologia'])->name('reportes.patologia');
         // Dentro del grupo auth - SOLO ESTAS 2 RUTAS
         Route::get('/reportes/ficha-beneficiario', [App\Http\Controllers\HomeController::class, 'generarPdfFicha']);
         Route::get('/reportes/inventario', [App\Http\Controllers\HomeController::class, 'generarPdfInventario']);
@@ -111,9 +110,6 @@ Route::post('/telegram/webhook', [App\Http\Controllers\TelegramController::class
 Route::get('/telegram/set-webhook', function () {
     $service = new \App\Services\TelegramService();
     $url = url('/telegram/webhook');
-    if (strpos($url, 'localhost') === false && strpos($url, 'https') === false) {
-        $url = str_replace('http://', 'https://', $url);
-    }
     $result = $service->setWebhook($url);
     return response()->json([
         'status' => 'webhook_request_sent',

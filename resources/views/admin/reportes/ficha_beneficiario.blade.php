@@ -1,74 +1,83 @@
+{{-- resources/views/admin/reportes/ficha_beneficiario.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Ficha de Beneficiario</h1>
-        <a href="{{ route('reportes.index') }}" class="btn btn-sm btn-secondary shadow-sm">
-            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Volver a Reportes
-        </a>
-    </div>
-
-    <div class="card shadow-sm border-0 mb-4">
+<div class="container">
+    <h2>Reporte de Ficha de Beneficiario</h2>
+    
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Filtros de Búsqueda</h5>
+        </div>
         <div class="card-body">
-            <form action="{{ route('reportes.ficha-beneficiario') }}" method="GET" class="row align-items-end">
-                <div class="col-md-3">
-                    <div class="form-group mb-0">
-                        <label class="small font-weight-bold">Cédula</label>
-                        <input type="text" class="form-control" name="cedula" value="{{ request('cedula') }}" placeholder="V-12345678">
+            <form action="{{ url('/public/reportes/ficha-beneficiario') }}" method="GET">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cedula">Cédula</label>
+                            <input type="text" class="form-control" id="cedula" name="cedula" 
+                                   value="{{ request('cedula') }}" placeholder="Buscar por cédula">
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group mb-0">
-                        <label class="small font-weight-bold">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" value="{{ request('nombre') }}" placeholder="Nombre del beneficiario">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" 
+                                   value="{{ request('nombre') }}" placeholder="Buscar por nombre">
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary px-4"><i class="fas fa-search mr-1"></i> Buscar</button>
-                    @if(isset($clientes) && $clientes->count() > 0)
-                        <button type="submit" name="generar_pdf" value="1" class="btn btn-danger px-4 mx-2" formtarget="_blank"><i class="fas fa-file-pdf mr-1"></i> Generar PDF</button>
-                    @endif
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                                <a href="{{ url('/public/reportes') }}" class="btn btn-secondary">Volver</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
-    @if(isset($clientes))
-    <div class="card shadow-sm border-0">
+    @if(isset($clientes) && $clientes->count() > 0)
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Resultados ({{ $clientes->count() }})</h5>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover dataTable">
-                    <thead class="thead-light">
+                <table class="table table-striped">
+                    <thead>
                         <tr>
                             <th>Cédula</th>
                             <th>Nombre</th>
                             <th>Teléfono</th>
                             <th>Dirección</th>
+                            <th>Saldo</th>
                             <th>Expediente</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if(isset($clientes) && count($clientes) > 0)
-                            @foreach($clientes as $cliente)
-                            <tr>
-                                <td class="font-weight-bold text-primary">{{ $cliente->cedula }}</td>
-                                <td>{{ $cliente->nombre }}</td>
-                                <td>{{ $cliente->telefono }}</td>
-                                <td>{{ $cliente->direccion }}</td>
-                                <td class="text-muted">{{ $cliente->nro_expediente }}</td>
-                            </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">No se encontraron beneficiarios con los criterios de búsqueda.</td>
-                            </tr>
-                        @endif
+                        @foreach($clientes as $cliente)
+                        <tr>
+                            <td>{{ $cliente->cedula }}</td>
+                            <td>{{ $cliente->nombre }}</td>
+                            <td>{{ $cliente->telefono }}</td>
+                            <td>{{ $cliente->direccion }}</td>
+                            <td>{{ number_format($cliente->saldo, 2) }}</td>
+                            <td>{{ $cliente->nro_expediente }}</td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    @elseif(request()->has('cedula') || request()->has('nombre'))
+    <div class="alert alert-info mt-4">
+        No se encontraron beneficiarios con los filtros especificados.
+    </div>
     @endif
 </div>
-@endsection
+@endsection
