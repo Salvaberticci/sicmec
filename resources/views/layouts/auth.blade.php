@@ -21,7 +21,7 @@
   <div class="card">
     <div class="card-body login-card-body">
       <div class="login-logo p-0">
-        <img src="{{asset('img/logo.png')}}" alt="" class="w-100">
+        <img src="{{asset('img/logo.png')}}" alt="" class="w-100 bg-transparent" style="background-color: transparent !important;">
       </div>
         @yield("content")
     </div>
